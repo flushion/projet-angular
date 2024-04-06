@@ -8,11 +8,19 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { PhototequeComponent } from './phototeque/phototeque.component';
+import { BarreNavigationComponent } from './barre-navigation/barre-navigation.component';
 
 @NgModule({
-  declarations: [AppComponent, PhototequeComponent, PictureComponent],
-  imports: [BrowserModule, AppRoutingModule, MatIconModule, MatButtonModule],
+  declarations: [AppComponent, PhototequeComponent, PictureComponent, BarreNavigationComponent],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    MatIconModule,
+    MatButtonModule,
+    MatToolbarModule,
+  ],
   providers: [provideAnimationsAsync()],
   bootstrap: [AppComponent],
 })
