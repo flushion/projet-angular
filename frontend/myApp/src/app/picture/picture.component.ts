@@ -1,21 +1,37 @@
 import { Component, Input } from '@angular/core';
+import { IPhoto } from '../IPhoto';
+import { PhotosService } from '../photos.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-picture',
   templateUrl: './picture.component.html',
   styleUrls: ['./picture.component.css'],
 })
-export class PictureComponent {
-  @Input() url: string = '';
+export class PictureComponent implements IPhoto {
+  @Input() name: string = '';
+  @Input() createdAt: string = '';
+  @Input() liked: boolean = false;
+  private _path: string = 'http://localhost:3000/photos/';
 
-  constructor() {}
+  constructor(private photosService: PhotosService, private router: Router) {}
+
+  get path(): string {
+    return this._path;
+  }
 
   like() {
-    alert("vous avez liké l'image dont l'url est : " + this.url);
+    if (this.liked === true) {
+      this.photosService.delFavorie(this.name);
+      this.liked = false;
+    } else {
+      this.photosService.addFavorie(this.name);
+      this.liked = true;
+    }
   }
 
   ouvertureImage() {
-    window.location.href = this.url;
+    this.router.navigateByUrl('/visualiser');
   }
 
   //délégation d'evenement car sinon la redirection se fait au clique sur le like (car le bouton est sur la div)

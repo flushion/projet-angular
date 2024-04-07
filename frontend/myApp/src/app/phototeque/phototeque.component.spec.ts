@@ -8,10 +8,9 @@ describe('PhototequeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PhototequeComponent]
-    })
-    .compileComponents();
-    
+      declarations: [PhototequeComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(PhototequeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

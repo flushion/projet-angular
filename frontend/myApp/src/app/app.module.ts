@@ -12,16 +12,29 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { PhototequeComponent } from './phototeque/phototeque.component';
 import { BarreNavigationComponent } from './barre-navigation/barre-navigation.component';
 
+import { PhotosService } from './photos.service';
+import { HttpClientModule } from '@angular/common/http';
+import { PageVisualierComponent } from './page-visualier/page-visualier.component';
+import { PagePrincipaleComponent } from './page-principale/page-principale.component';
+
 @NgModule({
-  declarations: [AppComponent, PhototequeComponent, PictureComponent, BarreNavigationComponent],
+  declarations: [
+    AppComponent,
+    PhototequeComponent,
+    PictureComponent,
+    BarreNavigationComponent,
+    PageVisualierComponent,
+    PagePrincipaleComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     MatIconModule,
     MatButtonModule,
     MatToolbarModule,
+    HttpClientModule,
   ],
-  providers: [provideAnimationsAsync()],
+  providers: [provideAnimationsAsync(), PhotosService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

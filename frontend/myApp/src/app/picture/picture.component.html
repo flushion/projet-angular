@@ -1,8 +1,8 @@
 <div
-  [style.background-image]="'url(' + url + ')'"
+  [style.background-image]="'url(' + path + '' + name + ')'"
   (click)="delegationEvenements($event)"
 >
-  <button mat-icon-button color="warn">
+  <button mat-icon-button [style.color]="liked ? 'red' : 'white'">
     <mat-icon>favorite</mat-icon>
   </button>
 </div>
