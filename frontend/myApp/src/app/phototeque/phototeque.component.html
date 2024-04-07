@@ -1,0 +1,8 @@
+<div>
+  <app-picture
+    *ngFor="let photo of mesPhotos"
+    [name]="photo.name"
+    [createdAt]="photo.createdAt"
+    [liked]="photo.liked"
+  ></app-picture>
+</div>
