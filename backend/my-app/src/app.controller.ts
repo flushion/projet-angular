@@ -2,6 +2,7 @@ import { Controller, Get, Res, Delete, Param, NotFoundException, Post, Middlewar
 import { Response } from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as Jimp from 'jimp'; // pour la taille d'image
 
 const photosDirectory = 'photos';
 const photosFilePath = 'photos.json'; // Chemin vers le fichier JSON contenant les données des photos
@@ -16,7 +17,7 @@ export class AppController {
     // Récupérer les chemins des nouvelles photos depuis le dossier
     const photoPaths = await this.getNewPhotoPaths(photosDirectory);
     // Créer les données des nouvelles photos à partir des chemins
-    const newPhotosData = this.createPhotosData(photoPaths);
+    const newPhotosData = await this.createPhotosData(photoPaths);
     // Mettre à jour le fichier photos.json avec les données des nouvelles photos
     this.updateNewPhotosData(newPhotosData);
     // Récupérer les données complètes des photos, y compris les anciennes et les nouvelles
@@ -101,6 +102,28 @@ export class AppController {
     }
   }
 
+  // Obtenir les informations d'une photo par son nom
+  @Get('photos/:name/info')
+  async getPhotoInfoByName(@Param('name') photoName: string) {
+    try {
+      const photosData = this.getPhotosData();
+      const photo = photosData.find((photo: { name: string }) => photo.name === photoName);
+      if (!photo) {
+        throw new NotFoundException('Photo non trouvée');
+      }
+      return {
+        name: photo.name,
+        createdAt: photo.createdAt,
+        liked: photo.liked,
+        size: photo.size,
+        dimensions: photo.dimensions
+      };
+    } catch (error) {
+      console.error('Erreur lors de la récupération des informations sur l\'image : ', error);
+      throw new NotFoundException('Erreur lors de la récupération des informations sur l\'image');
+    }
+  }
+
 
   // Récupérer les données des photos depuis le fichier JSON
   getPhotosData(): any[] {
@@ -124,7 +147,7 @@ export class AppController {
 
   // Mettre à jour les données des photos dans le fichier JSON en conservant l'état des photos existantes
   updatePhotosData(photos: any[]) {
-    const photosData = JSON.stringify(photos, null, 2); // Indentation pour une meilleure lisibilité
+    const photosData = JSON.stringify(photos, null, 2);
     fs.writeFileSync(photosFilePath, photosData);
   }
 
@@ -164,15 +187,6 @@ export class AppController {
     }
   }
 
-  // Créer les données des photos à partir des chemins
-  createPhotosData(photoPaths: { name: string, createdAt: Date }[]): any[] {
-    return photoPaths.map((photoPath) => ({
-      name: photoPath.name,
-      createdAt: photoPath.createdAt,
-      liked: false,
-    }));
-  }
-
   // Récupérer les données complètes des photos depuis le fichier JSON
   getAllPhotosData(): any[] {
     const existingPhotos = this.getPhotosData();
@@ -188,5 +202,46 @@ export class AppController {
     const existingPhotoNames = existingPhotos.map(photo => photo.name);
     const newPhotos = existingPhotos.filter(photo => !existingPhotoNames.includes(photo.name));
     return newPhotos;
+  }
+
+  // Récupérer la taille de l'image à partir du chemin du fichier
+  async getImageSize(filePath: string): Promise<number> {
+    try {
+      const stats = await fs.promises.stat(filePath);
+      return stats.size;
+    } catch (error) {
+      console.error('Erreur lors de la récupération de la taille de l\'image : ', error);
+      return -1;
+    }
+  }
+
+  // Récupérer les dimensions de l'image à partir du chemin du fichier
+  async getImageDimensions(filePath: string): Promise<{ width: number, height: number }> {
+    try {
+      const image = await Jimp.read(filePath);
+      return {
+        width: image.bitmap.width,
+        height: image.bitmap.height
+      };
+    } catch (error) {
+      console.error('Erreur lors de la récupération des dimensions de l\'image : ', error);
+      return { width: -1, height: -1 };
+    }
+  }
+
+  // Créer les données des photos à partir des chemins
+  async createPhotosData(photoPaths: { name: string, createdAt: Date }[]): Promise<any[]> {
+    const promises = photoPaths.map(async (photoPath) => {
+      const dimensions = await this.getImageDimensions(path.join(photosDirectory, photoPath.name));
+      const size = await this.getImageSize(path.join(photosDirectory, photoPath.name));
+      return {
+        name: photoPath.name,
+        createdAt: photoPath.createdAt,
+        liked: false,
+        size: size,
+        dimensions: dimensions
+      };
+    });
+    return Promise.all(promises);
   }
 }
