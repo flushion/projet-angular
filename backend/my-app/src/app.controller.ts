@@ -1,4 +1,4 @@
-import { Controller, Get, Res, Delete, Param, NotFoundException, Post } from '@nestjs/common';
+import { Controller, Get, Res, Delete, Param, NotFoundException, Post, MiddlewareConsumer, Module } from '@nestjs/common';
 import { Response } from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -79,6 +79,26 @@ export class AppController {
     } catch (error) {
       console.error('Erreur lors de la suppression de la photo : ', error);
       throw new NotFoundException('Erreur lors de la suppression de la photo');
+    }
+  }
+
+  // Obtenir une photo spécifique par son nom
+  @Get('photos/:name')
+  async getPhotoByName(@Param('name') photoName: string, @Res() res: Response) {
+    try {
+      // Vérifier si le fichier existe dans le répertoire des photos
+      const filePath = path.join(photosDirectory, photoName);
+      if (!fs.existsSync(filePath)) {
+        throw new NotFoundException('Photo non trouvée');
+      }
+
+      // Lire le fichier de la photo et renvoyer son contenu en réponse
+      const fileContent = fs.readFileSync(filePath);
+      res.setHeader('Content-Type', 'image/jpeg'); // Définir le type de contenu en fonction du type de fichier
+      return res.send(fileContent);
+    } catch (error) {
+      console.error('Erreur lors de la récupération de la photo : ', error);
+      throw new NotFoundException('Erreur lors de la récupération de la photo');
     }
   }
 
