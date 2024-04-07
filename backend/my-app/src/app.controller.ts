@@ -33,10 +33,10 @@ export class AppController {
   }
 
   // Marquer une photo comme favorite
-  @Post('photos/:path/favorite')
-  async markAsFavorite(@Param('path') photoPath: string, @Res() res: Response) {
+  @Post('photos/:name/favorite')
+  async markAsFavorite(@Param('name') photoName: string, @Res() res: Response) {
     const photos = this.getPhotosData();
-    const photoIndex = photos.findIndex(photo => photo.path === `photos/${photoPath}`); // Recherche de l'index de la photo dans le tableau de données des photos
+    const photoIndex = photos.findIndex(photo => photo.name === photoName); // Recherche de l'index de la photo dans le tableau de données des photos
     if (photoIndex !== -1) {
       // Marquer la photo comme favorite
       photos[photoIndex].liked = true;
@@ -48,12 +48,11 @@ export class AppController {
     }
   }
 
-
   // Supprimer une photo des favorites
-  @Delete('photos/:path/favorite')
-  async removeFavorite(@Param('path') photoPath: string, @Res() res: Response) {
+  @Delete('photos/:name/favorite')
+  async removeFavorite(@Param('name') photoName: string, @Res() res: Response) {
     const photos = this.getPhotosData();
-    const photo = photos.find(photo => photo.path === `photos/${photoPath}`); // Inclure le répertoire 'photos' dans le chemin
+    const photo = photos.find(photo => photo.name === photoName); // Inclure le répertoire 'photos' dans le chemin
     if (photo) {
       photo.liked = false;
       this.updatePhotosData(photos);
@@ -64,15 +63,15 @@ export class AppController {
   }
 
   // Supprimer une photo (marquer comme supprimée)
-  @Delete('photos/:path')
-  async deletePhoto(@Param('path') photoPath: string, @Res() res: Response) {
+  @Delete('photos/:name')
+  async deletePhoto(@Param('name') photoName: string, @Res() res: Response) {
     try {
-      const filePath = path.join(photosDirectory, photoPath);
+      const filePath = path.join(photosDirectory, photoName);
       fs.unlinkSync(filePath); // Supprimer le fichier de la photo
 
       // Mettre à jour les données des photos dans le fichier JSON
       const existingPhotos = this.getPhotosData();
-      const updatedPhotos = existingPhotos.filter(photo => photo.path !== `photos/${photoPath}`);
+      const updatedPhotos = existingPhotos.filter(photo => photo.name !== photoName);
       this.updatePhotosData(updatedPhotos);
 
       return res.status(200).send('Photo supprimée avec succès');
@@ -130,9 +129,9 @@ export class AppController {
   }
 
   // Récupérer les chemins des photos dans un répertoire avec les données de création
-  async getNewPhotoPaths(directory: string): Promise<{ path: string, createdAt: Date }[]> {
+  async getNewPhotoPaths(directory: string): Promise<{ name: string, createdAt: Date }[]> {
     const existingPhotos = this.getPhotosData();
-    const existingPhotoPaths = existingPhotos.map(photo => photo.path);
+    const existingPhotoNames = existingPhotos.map(photo => photo.name);
     return new Promise((resolve, reject) => {
       fs.readdir(directory, async (err, files) => {
         if (err) {
@@ -141,14 +140,14 @@ export class AppController {
           const newPhotoPathsPromises = files.map(async (file) => {
             const filePath = path.join(directory, file);
             const stats = await fs.promises.stat(filePath);
-            const photoPath = `photos/${file}`;
-            // Vérifier si le chemin de la photo est nouveau
-            if (!existingPhotoPaths.includes(photoPath)) {
-              return { path: photoPath, createdAt: stats.birthtime };
+            const photoName = file;
+            // Vérifier si le nom de la photo est nouveau
+            if (!existingPhotoNames.includes(photoName)) {
+              return { name: photoName, createdAt: stats.birthtime };
             }
           });
           const newPhotoPaths = await Promise.all(newPhotoPathsPromises);
-          // Filtrer les chemins de photos pour ne récupérer que les nouveaux
+          // Filtrer les noms de photos pour ne récupérer que les nouveaux
           const filteredNewPhotoPaths = newPhotoPaths.filter(photoPath => photoPath !== undefined);
           resolve(filteredNewPhotoPaths);
         }
@@ -166,9 +165,9 @@ export class AppController {
   }
 
   // Créer les données des photos à partir des chemins
-  createPhotosData(photoPaths: { path: string, createdAt: Date }[]): any[] {
+  createPhotosData(photoPaths: { name: string, createdAt: Date }[]): any[] {
     return photoPaths.map((photoPath) => ({
-      path: photoPath.path,
+      name: photoPath.name,
       createdAt: photoPath.createdAt,
       liked: false,
     }));
@@ -186,8 +185,8 @@ export class AppController {
   // Récupérer les données des nouvelles photos depuis le fichier JSON
   getNewPhotosData(): any[] {
     const existingPhotos = this.getPhotosData();
-    const existingPhotoPaths = existingPhotos.map(photo => photo.path);
-    const newPhotos = existingPhotos.filter(photo => !existingPhotoPaths.includes(photo.path));
+    const existingPhotoNames = existingPhotos.map(photo => photo.name);
+    const newPhotos = existingPhotos.filter(photo => !existingPhotoNames.includes(photo.name));
     return newPhotos;
   }
 }
