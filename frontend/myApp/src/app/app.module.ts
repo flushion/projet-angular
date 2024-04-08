@@ -17,6 +17,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { PageVisualierComponent } from './page-visualier/page-visualier.component';
 import { PageHomeComponent } from './page-home/page-home.component';
 
+import { MatDialogModule } from '@angular/material/dialog';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,6 +35,7 @@ import { PageHomeComponent } from './page-home/page-home.component';
     MatButtonModule,
     MatToolbarModule,
     HttpClientModule,
+    MatDialogModule,
   ],
   providers: [provideAnimationsAsync(), PhotosService],
   bootstrap: [AppComponent],
