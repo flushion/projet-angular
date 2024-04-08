@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { IPhoto } from '../IPhoto';
 import { PhotosService } from '../photos.service';
 import { Router } from '@angular/router';
+import { IDimension } from '../IDimension';
 
 @Component({
   selector: 'app-picture',
@@ -12,6 +13,8 @@ export class PictureComponent implements IPhoto {
   @Input() name: string = '';
   @Input() createdAt: string = '';
   @Input() liked: boolean = false;
+  @Input() size: number = 0;
+  @Input() dimensions: IDimension = { width: 0, height: 0 };
   private _path: string = 'http://localhost:3000/photos/';
 
   constructor(private photosService: PhotosService, private router: Router) {}

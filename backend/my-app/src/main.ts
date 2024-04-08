@@ -7,7 +7,7 @@ async function bootstrap() {
 
   app.use(
     cors({
-      origin: 'http://localhost:4200/',
+      origin: 'http://localhost:4200',
       methods: ['GET', 'POST', 'DELETE'],
       allowedHeaders: ['Content-Type', 'Authorization'],
       credentials: true, // pour gerer les cookies si jamais on ajoute un page de connexion
