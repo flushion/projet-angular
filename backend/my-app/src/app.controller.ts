@@ -1,4 +1,13 @@
-import { Controller, Get, Res, Delete, Param, NotFoundException, Post, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Res,
+  Delete,
+  Param,
+  NotFoundException,
+  Post,
+  Body,
+} from '@nestjs/common';
 import { Response } from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -10,7 +19,7 @@ const cheminFichierAlbums = 'albums.json'; // Chemin du fichier JSON contenant l
 
 @Controller()
 export class AppController {
-  constructor() { }
+  constructor() {}
 
   // Récupérer la liste des photos sans affecter les données des photos existantes
   @Get('photos')
@@ -30,7 +39,7 @@ export class AppController {
   // Récupérer la liste des photos favorites
   @Get('photos/favorites')
   async getFavoritePhotos(@Res() res: Response) {
-    const photos = this.getPhotosData().filter(photo => photo.liked);
+    const photos = this.getPhotosData().filter((photo) => photo.liked);
     return res.json(photos);
   }
 
@@ -38,7 +47,7 @@ export class AppController {
   @Post('photos/:name/favorite')
   async markAsFavorite(@Param('name') photoName: string, @Res() res: Response) {
     const photos = this.getPhotosData();
-    const photoIndex = photos.findIndex(photo => photo.name === photoName); // Recherche de l'index de la photo dans le tableau de données des photos
+    const photoIndex = photos.findIndex((photo) => photo.name === photoName); // Recherche de l'index de la photo dans le tableau de données des photos
     if (photoIndex !== -1) {
       // Marquer la photo comme favorite
       photos[photoIndex].liked = true;
@@ -54,7 +63,7 @@ export class AppController {
   @Delete('photos/:name/favorite')
   async removeFavorite(@Param('name') photoName: string, @Res() res: Response) {
     const photos = this.getPhotosData();
-    const photo = photos.find(photo => photo.name === photoName); // Inclure le répertoire 'photos' dans le chemin
+    const photo = photos.find((photo) => photo.name === photoName); // Inclure le répertoire 'photos' dans le chemin
     if (photo) {
       photo.liked = false;
       this.updatePhotosData(photos);
@@ -73,7 +82,9 @@ export class AppController {
 
       // Mettre à jour les données des photos dans le fichier JSON
       const existingPhotos = this.getPhotosData();
-      const updatedPhotos = existingPhotos.filter(photo => photo.name !== photoName);
+      const updatedPhotos = existingPhotos.filter(
+        (photo) => photo.name !== photoName,
+      );
       this.updatePhotosData(updatedPhotos);
 
       return res.status(200).send('Photo supprimée avec succès');
@@ -108,7 +119,9 @@ export class AppController {
   async getPhotoInfoByName(@Param('name') photoName: string) {
     try {
       const photosData = this.getPhotosData();
-      const photo = photosData.find((photo: { name: string }) => photo.name === photoName);
+      const photo = photosData.find(
+        (photo: { name: string }) => photo.name === photoName,
+      );
       if (!photo) {
         throw new NotFoundException('Photo non trouvée');
       }
@@ -117,14 +130,18 @@ export class AppController {
         createdAt: photo.createdAt,
         liked: photo.liked,
         size: photo.size,
-        dimensions: photo.dimensions
+        dimensions: photo.dimensions,
       };
     } catch (error) {
-      console.error('Erreur lors de la récupération des informations sur l\'image : ', error);
-      throw new NotFoundException('Erreur lors de la récupération des informations sur l\'image');
+      console.error(
+        "Erreur lors de la récupération des informations sur l'image : ",
+        error,
+      );
+      throw new NotFoundException(
+        "Erreur lors de la récupération des informations sur l'image",
+      );
     }
   }
-
 
   // Récupérer les données des photos depuis le fichier JSON
   getPhotosData(): any[] {
@@ -145,7 +162,6 @@ export class AppController {
     }
   }
 
-
   // Mettre à jour les données des photos dans le fichier JSON en conservant l'état des photos existantes
   updatePhotosData(photos: any[]) {
     const photosData = JSON.stringify(photos, null, 2);
@@ -153,9 +169,11 @@ export class AppController {
   }
 
   // Récupérer les chemins des photos dans un répertoire avec les données de création
-  async getNewPhotoPaths(directory: string): Promise<{ name: string, createdAt: Date }[]> {
+  async getNewPhotoPaths(
+    directory: string,
+  ): Promise<{ name: string; createdAt: Date }[]> {
     const existingPhotos = this.getPhotosData();
-    const existingPhotoNames = existingPhotos.map(photo => photo.name);
+    const existingPhotoNames = existingPhotos.map((photo) => photo.name);
     return new Promise((resolve, reject) => {
       fs.readdir(directory, async (err, files) => {
         if (err) {
@@ -172,7 +190,9 @@ export class AppController {
           });
           const newPhotoPaths = await Promise.all(newPhotoPathsPromises);
           // Filtrer les noms de photos pour ne récupérer que les nouveaux
-          const filteredNewPhotoPaths = newPhotoPaths.filter(photoPath => photoPath !== undefined);
+          const filteredNewPhotoPaths = newPhotoPaths.filter(
+            (photoPath) => photoPath !== undefined,
+          );
           resolve(filteredNewPhotoPaths);
         }
       });
@@ -200,8 +220,10 @@ export class AppController {
   // Récupérer les données des nouvelles photos depuis le fichier JSON
   getNewPhotosData(): any[] {
     const existingPhotos = this.getPhotosData();
-    const existingPhotoNames = existingPhotos.map(photo => photo.name);
-    const newPhotos = existingPhotos.filter(photo => !existingPhotoNames.includes(photo.name));
+    const existingPhotoNames = existingPhotos.map((photo) => photo.name);
+    const newPhotos = existingPhotos.filter(
+      (photo) => !existingPhotoNames.includes(photo.name),
+    );
     return newPhotos;
   }
 
@@ -211,46 +233,59 @@ export class AppController {
       const stats = await fs.promises.stat(filePath);
       return stats.size;
     } catch (error) {
-      console.error('Erreur lors de la récupération de la taille de l\'image : ', error);
+      console.error(
+        "Erreur lors de la récupération de la taille de l'image : ",
+        error,
+      );
       return -1;
     }
   }
 
   // Récupérer les dimensions de l'image à partir du chemin du fichier
-  async getImageDimensions(filePath: string): Promise<{ width: number, height: number }> {
+  async getImageDimensions(
+    filePath: string,
+  ): Promise<{ width: number; height: number }> {
     try {
       const image = await Jimp.read(filePath);
       return {
         width: image.bitmap.width,
-        height: image.bitmap.height
+        height: image.bitmap.height,
       };
     } catch (error) {
-      console.error('Erreur lors de la récupération des dimensions de l\'image : ', error);
+      console.error(
+        "Erreur lors de la récupération des dimensions de l'image : ",
+        error,
+      );
       return { width: -1, height: -1 };
     }
   }
 
   // Créer les données des photos à partir des chemins
-  async createPhotosData(photoPaths: { name: string, createdAt: Date }[]): Promise<any[]> {
+  async createPhotosData(
+    photoPaths: { name: string; createdAt: Date }[],
+  ): Promise<any[]> {
     const albums = this.getAlbumsData();
     const promises = photoPaths.map(async (photoPath) => {
-      const dimensions = await this.getImageDimensions(path.join(photosDirectory, photoPath.name));
-      const size = await this.getImageSize(path.join(photosDirectory, photoPath.name));
-      const photoAlbums = albums.filter(album => album.photos.includes(photoPath.name)).map(album => album.nom);
+      const dimensions = await this.getImageDimensions(
+        path.join(photosDirectory, photoPath.name),
+      );
+      const size = await this.getImageSize(
+        path.join(photosDirectory, photoPath.name),
+      );
+      const photoAlbums = albums
+        .filter((album) => album.photos.includes(photoPath.name))
+        .map((album) => album.nom);
       return {
         name: photoPath.name,
         createdAt: photoPath.createdAt,
         liked: false,
         size: size,
         dimensions: dimensions,
-        albums: photoAlbums
+        albums: photoAlbums,
       };
     });
     return Promise.all(promises);
   }
-
-
-
 
   // Obtenir les données des albums
   getAlbumsData(): any[] {
@@ -266,7 +301,10 @@ export class AppController {
         return [];
       }
     } catch (error) {
-      console.error('Erreur lors de la lecture des données des albums :', error);
+      console.error(
+        'Erreur lors de la lecture des données des albums :',
+        error,
+      );
       return [];
     }
   }
@@ -283,24 +321,39 @@ export class AppController {
       const albums = this.getAlbumsData();
       return res.json(albums);
     } catch (error) {
-      console.error('Erreur lors de la récupération de tous les albums :', error);
-      throw new NotFoundException('Erreur lors de la récupération de tous les albums');
+      console.error(
+        'Erreur lors de la récupération de tous les albums :',
+        error,
+      );
+      throw new NotFoundException(
+        'Erreur lors de la récupération de tous les albums',
+      );
     }
   }
 
   // Obtenir les informations d'un album par son nom
   @Get('albums/:nom')
-  async getInfoAlbumParNom(@Param('nom') nomAlbum: string, @Res() res: Response) {
+  async getInfoAlbumParNom(
+    @Param('nom') nomAlbum: string,
+    @Res() res: Response,
+  ) {
     try {
       const donneesAlbums = this.getAlbumsData();
-      const album = donneesAlbums.find((album: { nom: string }) => album.nom === nomAlbum);
+      const album = donneesAlbums.find(
+        (album: { nom: string }) => album.nom === nomAlbum,
+      );
       if (!album) {
         throw new NotFoundException('Album introuvable');
       }
       return res.json(album);
     } catch (error) {
-      console.error('Erreur lors de la récupération des informations sur l\'album :', error);
-      throw new NotFoundException('Erreur lors de la récupération des informations sur l\'album');
+      console.error(
+        "Erreur lors de la récupération des informations sur l'album :",
+        error,
+      );
+      throw new NotFoundException(
+        "Erreur lors de la récupération des informations sur l'album",
+      );
     }
   }
 
@@ -309,7 +362,7 @@ export class AppController {
   async creerAlbum(@Param('nomAlbum') nomAlbum: string, @Res() res: Response) {
     try {
       const albums = this.getAlbumsData();
-      if (!albums.some(album => album.nom === nomAlbum)) {
+      if (!albums.some((album) => album.nom === nomAlbum)) {
         albums.push({ nom: nomAlbum, photos: [] });
         this.updateAlbumsData(albums);
         return res.status(201).send('Album créé avec succès');
@@ -317,18 +370,17 @@ export class AppController {
         return res.status(400).send('Un album avec ce nom existe déjà');
       }
     } catch (error) {
-      console.error('Erreur lors de la création de l\'album :', error);
-      throw new NotFoundException('Erreur lors de la création de l\'album');
+      console.error("Erreur lors de la création de l'album :", error);
+      throw new NotFoundException("Erreur lors de la création de l'album");
     }
   }
-
 
   // Supprimer un album
   @Delete('albums/:nom')
   async supprimerAlbum(@Param('nom') nomAlbum: string, @Res() res: Response) {
     try {
       const albums = this.getAlbumsData();
-      const index = albums.findIndex(album => album.nom === nomAlbum);
+      const index = albums.findIndex((album) => album.nom === nomAlbum);
       if (index !== -1) {
         albums.splice(index, 1);
         this.updateAlbumsData(albums);
@@ -337,20 +389,24 @@ export class AppController {
         throw new NotFoundException('Album introuvable');
       }
     } catch (error) {
-      console.error('Erreur lors de la suppression de l\'album :', error);
-      throw new NotFoundException('Erreur lors de la suppression de l\'album');
+      console.error("Erreur lors de la suppression de l'album :", error);
+      throw new NotFoundException("Erreur lors de la suppression de l'album");
     }
   }
 
   // Ajouter une photo à un album
   @Post('albums/:nomAlbum/photos/:nomPhoto')
-  async ajouterAuAlbum(@Param('nomAlbum') nomAlbum: string, @Param('nomPhoto') nomPhoto: string, @Res() res: Response) {
+  async ajouterAuAlbum(
+    @Param('nomAlbum') nomAlbum: string,
+    @Param('nomPhoto') nomPhoto: string,
+    @Res() res: Response,
+  ) {
     try {
       const albums = this.getAlbumsData();
-      const indexAlbum = albums.findIndex(album => album.nom === nomAlbum);
+      const indexAlbum = albums.findIndex((album) => album.nom === nomAlbum);
       if (indexAlbum !== -1) {
         const photos = this.getPhotosData();
-        const indexPhoto = photos.findIndex(photo => photo.name === nomPhoto);
+        const indexPhoto = photos.findIndex((photo) => photo.name === nomPhoto);
         if (indexPhoto !== -1) {
           if (!albums[indexAlbum].photos.includes(nomPhoto)) {
             albums[indexAlbum].photos.push(nomPhoto);
@@ -359,9 +415,11 @@ export class AppController {
             this.updatePhotosData(photos);
 
             this.updateAlbumsData(albums);
-            return res.status(200).send('Photo ajoutée à l\'album avec succès');
+            return res.status(200).send("Photo ajoutée à l'album avec succès");
           } else {
-            return res.status(400).send('Cette photo est déjà présente dans l\'album');
+            return res
+              .status(400)
+              .send("Cette photo est déjà présente dans l'album");
           }
         } else {
           throw new NotFoundException('Photo introuvable');
@@ -370,33 +428,47 @@ export class AppController {
         throw new NotFoundException('Album introuvable');
       }
     } catch (error) {
-      console.error('Erreur lors de l\'ajout de la photo à l\'album :', error);
-      throw new NotFoundException('Erreur lors de l\'ajout de la photo à l\'album');
+      console.error("Erreur lors de l'ajout de la photo à l'album :", error);
+      throw new NotFoundException(
+        "Erreur lors de l'ajout de la photo à l'album",
+      );
     }
   }
 
-
   // Supprimer une photo d'un album
   @Delete('albums/:nomAlbum/photos/:nomPhoto')
-  async supprimerDeAlbum(@Param('nomAlbum') nomAlbum: string, @Param('nomPhoto') nomPhoto: string, @Res() res: Response) {
+  async supprimerDeAlbum(
+    @Param('nomAlbum') nomAlbum: string,
+    @Param('nomPhoto') nomPhoto: string,
+    @Res() res: Response,
+  ) {
     try {
       const albums = this.getAlbumsData();
-      const indexAlbum = albums.findIndex(album => album.nom === nomAlbum);
+      const indexAlbum = albums.findIndex((album) => album.nom === nomAlbum);
       if (indexAlbum !== -1) {
-        const indexPhoto = albums[indexAlbum].photos.findIndex((photo: string) => photo === nomPhoto);
+        const indexPhoto = albums[indexAlbum].photos.findIndex(
+          (photo: string) => photo === nomPhoto,
+        );
         if (indexPhoto !== -1) {
           albums[indexAlbum].photos.splice(indexPhoto, 1);
           this.updateAlbumsData(albums);
-          return res.status(200).send('Photo supprimée de l\'album avec succès');
+          return res.status(200).send("Photo supprimée de l'album avec succès");
         } else {
-          return res.status(400).send('Cette photo n\'est pas présente dans l\'album');
+          return res
+            .status(400)
+            .send("Cette photo n'est pas présente dans l'album");
         }
       } else {
         throw new NotFoundException('Album introuvable');
       }
     } catch (error) {
-      console.error('Erreur lors de la suppression de la photo de l\'album :', error);
-      throw new NotFoundException('Erreur lors de la suppression de la photo de l\'album');
+      console.error(
+        "Erreur lors de la suppression de la photo de l'album :",
+        error,
+      );
+      throw new NotFoundException(
+        "Erreur lors de la suppression de la photo de l'album",
+      );
     }
   }
 }

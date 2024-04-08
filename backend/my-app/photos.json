@@ -8,12 +8,14 @@
       "width": 3024,
       "height": 4032
     },
-    "albums": ["MonNouvelAlbum"]
+    "albums": [
+      "MonNouvelAlbum"
+    ]
   },
   {
     "name": "photo2.jpg",
     "createdAt": "2024-04-08T09:09:26.870Z",
-    "liked": false,
+    "liked": true,
     "size": 4348298,
     "dimensions": {
       "width": 3024,
@@ -205,94 +207,6 @@
     "dimensions": {
       "width": 2448,
       "height": 3264
-    },
-    "albums": []
-  },
-  {
-    "name": "photo2.jpg",
-    "createdAt": "2024-04-08T12:25:18.723Z",
-    "liked": false,
-    "size": 4348298,
-    "dimensions": {
-      "width": 3024,
-      "height": 4032
-    },
-    "albums": ["MonNouvelAlbum"]
-  },
-  {
-    "name": "photo3.jpg",
-    "createdAt": "2024-04-08T12:25:18.734Z",
-    "liked": false,
-    "size": 2459580,
-    "dimensions": {
-      "width": 3024,
-      "height": 4032
-    },
-    "albums": []
-  },
-  {
-    "name": "photo4.jpg",
-    "createdAt": "2024-04-08T12:25:18.743Z",
-    "liked": false,
-    "size": 3216452,
-    "dimensions": {
-      "width": 4032,
-      "height": 3024
-    },
-    "albums": []
-  },
-  {
-    "name": "photo5.jpg",
-    "createdAt": "2024-04-08T12:25:18.752Z",
-    "liked": false,
-    "size": 3938477,
-    "dimensions": {
-      "width": 4032,
-      "height": 3024
-    },
-    "albums": []
-  },
-  {
-    "name": "photo6.jpg",
-    "createdAt": "2024-04-08T12:25:18.767Z",
-    "liked": false,
-    "size": 3057640,
-    "dimensions": {
-      "width": 3024,
-      "height": 4032
-    },
-    "albums": []
-  },
-  {
-    "name": "photo7.jpg",
-    "createdAt": "2024-04-08T12:25:18.789Z",
-    "liked": false,
-    "size": 3292160,
-    "dimensions": {
-      "width": 3024,
-      "height": 4032
-    },
-    "albums": []
-  },
-  {
-    "name": "photo8.jpg",
-    "createdAt": "2024-04-08T12:25:18.798Z",
-    "liked": false,
-    "size": 2382736,
-    "dimensions": {
-      "width": 3024,
-      "height": 4032
-    },
-    "albums": []
-  },
-  {
-    "name": "photo9.jpg",
-    "createdAt": "2024-04-08T12:25:18.806Z",
-    "liked": false,
-    "size": 3120334,
-    "dimensions": {
-      "width": 4032,
-      "height": 3024
     },
     "albums": []
   }
