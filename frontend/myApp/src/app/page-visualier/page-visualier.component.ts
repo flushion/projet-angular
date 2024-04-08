@@ -4,6 +4,7 @@ import { OnInit } from '@angular/core';
 import { PhotosService } from '../photos.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { IDimension } from '../IDimension';
 
 @Component({
   selector: 'app-page-visualier',
@@ -14,6 +15,8 @@ export class PageVisualierComponent implements IPhoto {
   name: string = '';
   createdAt: string = '';
   liked: boolean = false;
+  size: number = 0;
+  dimensions: IDimension = { width: 0, height: 0 };
   path: string = 'http://localhost:3000/photos/';
 
   constructor(
@@ -36,9 +39,13 @@ export class PageVisualierComponent implements IPhoto {
 
     this.photosService.getAll().subscribe((photos: IPhoto[]) => {
       let infos = photos.find((photo) => photo.name === nom);
-      this.name = nom;
-      this.createdAt = infos!.createdAt;
-      this.liked = infos!.liked;
+      if (infos != undefined) {
+        this.name = nom;
+        this.createdAt = infos.createdAt;
+        this.liked = infos.liked;
+        this.size = infos.size;
+        this.dimensions = infos.dimensions;
+      }
     });
   }
 
