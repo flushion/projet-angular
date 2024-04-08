@@ -2,7 +2,7 @@
   {
     "name": "photo1.jpg",
     "createdAt": "2024-04-08T09:09:26.870Z",
-    "liked": true,
+    "liked": false,
     "size": 4348298,
     "dimensions": {
       "width": 3024,
@@ -12,7 +12,7 @@
   {
     "name": "photo2.jpg",
     "createdAt": "2024-04-08T09:09:26.870Z",
-    "liked": true,
+    "liked": false,
     "size": 4348298,
     "dimensions": {
       "width": 3024,
@@ -22,7 +22,7 @@
   {
     "name": "photo3.jpg",
     "createdAt": "2024-04-08T09:09:26.869Z",
-    "liked": false,
+    "liked": true,
     "size": 2459580,
     "dimensions": {
       "width": 3024,
@@ -62,7 +62,7 @@
   {
     "name": "photo7.jpg",
     "createdAt": "2024-04-08T09:09:26.858Z",
-    "liked": false,
+    "liked": true,
     "size": 3292160,
     "dimensions": {
       "width": 3024,
@@ -72,7 +72,7 @@
   {
     "name": "photo8.jpg",
     "createdAt": "2024-04-08T09:09:26.854Z",
-    "liked": true,
+    "liked": false,
     "size": 2382736,
     "dimensions": {
       "width": 3024,
@@ -102,7 +102,7 @@
   {
     "name": "photo11.jpg",
     "createdAt": "2024-04-08T09:09:26.849Z",
-    "liked": true,
+    "liked": false,
     "size": 2736918,
     "dimensions": {
       "width": 4032,
@@ -152,7 +152,7 @@
   {
     "name": "photo16.jpg",
     "createdAt": "2024-04-08T09:09:26.796Z",
-    "liked": false,
+    "liked": true,
     "size": 2914570,
     "dimensions": {
       "width": 3264,
