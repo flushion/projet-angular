@@ -15,6 +15,7 @@ import { BarreNavigationComponent } from './barre-navigation/barre-navigation.co
 import { PhotosService } from './photos.service';
 import { HttpClientModule } from '@angular/common/http';
 import { PageVisualierComponent } from './page-visualier/page-visualier.component';
+import { PageHomeComponent } from './page-home/page-home.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { PageVisualierComponent } from './page-visualier/page-visualier.componen
     PictureComponent,
     BarreNavigationComponent,
     PageVisualierComponent,
+    PageHomeComponent,
   ],
   imports: [
     BrowserModule,

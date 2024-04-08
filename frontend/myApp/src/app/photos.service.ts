@@ -15,7 +15,7 @@ export class PhotosService {
   }
 
   getFavories(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/photos/favorite`);
+    return this.http.get<any>(`${this.apiUrl}/photos/favorites`);
   }
 
   getByName(name: string): Observable<any> {
