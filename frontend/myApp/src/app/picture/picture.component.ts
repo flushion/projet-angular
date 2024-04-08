@@ -31,7 +31,7 @@ export class PictureComponent implements IPhoto {
   }
 
   ouvertureImage() {
-    this.router.navigateByUrl('/visualiser');
+    this.router.navigate(['/visualiser', this.name]);
   }
 
   //délégation d'evenement car sinon la redirection se fait au clique sur le like (car le bouton est sur la div)
