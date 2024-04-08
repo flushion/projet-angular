@@ -15,7 +15,9 @@ import { BarreNavigationComponent } from './barre-navigation/barre-navigation.co
 import { PhotosService } from './photos.service';
 import { HttpClientModule } from '@angular/common/http';
 import { PageVisualierComponent } from './page-visualier/page-visualier.component';
-import { PagePrincipaleComponent } from './page-principale/page-principale.component';
+import { PageHomeComponent } from './page-home/page-home.component';
+
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,7 @@ import { PagePrincipaleComponent } from './page-principale/page-principale.compo
     PictureComponent,
     BarreNavigationComponent,
     PageVisualierComponent,
-    PagePrincipaleComponent,
+    PageHomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,6 +35,7 @@ import { PagePrincipaleComponent } from './page-principale/page-principale.compo
     MatButtonModule,
     MatToolbarModule,
     HttpClientModule,
+    MatDialogModule,
   ],
   providers: [provideAnimationsAsync(), PhotosService],
   bootstrap: [AppComponent],
