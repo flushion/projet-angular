@@ -18,6 +18,7 @@ import { PageVisualierComponent } from './page-visualier/page-visualier.componen
 import { PageHomeComponent } from './page-home/page-home.component';
 
 import { MatDialogModule } from '@angular/material/dialog';
+import { AlbumComponent } from './album/album.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     BarreNavigationComponent,
     PageVisualierComponent,
     PageHomeComponent,
+    AlbumComponent,
   ],
   imports: [
     BrowserModule,

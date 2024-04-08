@@ -39,4 +39,12 @@ export class PhotosService {
       .delete(`${this.apiUrl}/photos/${name}`)
       .subscribe((error) => console.log('une erreur est survenue : ' + error));
   }
+
+  getAllAlbum(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/albums`);
+  }
+
+  getPhotosByAlbum(name: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/albums/${name}`);
+  }
 }
