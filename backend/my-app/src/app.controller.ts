@@ -338,14 +338,34 @@ export class AppController {
     @Res() res: Response,
   ) {
     try {
-      const donneesAlbums = this.getAlbumsData();
-      const album = donneesAlbums.find(
+      const albums = this.getAlbumsData();
+      const album = albums.find(
         (album: { nom: string }) => album.nom === nomAlbum,
       );
       if (!album) {
         throw new NotFoundException('Album introuvable');
       }
-      return res.json(album);
+
+      // Récupérer les données de toutes les photos
+      const photos = this.getPhotosData();
+
+      // Filtrer les photos appartenant à cet album
+      const photosDeCetAlbum = photos.filter((photo) =>
+        album.photos.includes(photo.name),
+      );
+
+      // Retourner les informations complètes de chaque photo
+      const infosPhotos = photosDeCetAlbum.map((photo) => {
+        return {
+          name: photo.name,
+          createdAt: photo.createdAt,
+          liked: photo.liked,
+          size: photo.size,
+          dimensions: photo.dimensions,
+        };
+      });
+
+      return res.json(infosPhotos);
     } catch (error) {
       console.error(
         "Erreur lors de la récupération des informations sur l'album :",
