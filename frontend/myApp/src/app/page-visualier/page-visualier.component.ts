@@ -3,8 +3,9 @@ import { IPhoto } from '../IPhoto';
 import { OnInit } from '@angular/core';
 import { PhotosService } from '../photos.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { IDimension } from '../IDimension';
+import { PopUpInfosComponent } from '../pop-up-infos/pop-up-infos.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-page-visualier',
@@ -22,7 +23,8 @@ export class PageVisualierComponent implements IPhoto {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private photosService: PhotosService
+    private photosService: PhotosService,
+    private dialogRef: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -62,5 +64,16 @@ export class PageVisualierComponent implements IPhoto {
   delete() {
     this.photosService.deletePicture(this.name);
     this.router.navigate(['/']);
+  }
+
+  openInfos() {
+    this.dialogRef.open(PopUpInfosComponent, {
+      data: {
+        name: this.name,
+        date: this.createdAt,
+        size: this.size,
+        dimensions: this.dimensions,
+      },
+    });
   }
 }
