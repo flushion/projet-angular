@@ -108,16 +108,19 @@ export class PhotoController {
     async getPhotoInfoByName(@Param('name') photoName: string) {
         try {
             const photosData = this.getPhotosData();
+            const albumsData = this.getAlbumsData();
             const photo = photosData.find((photo: { name: string }) => photo.name === photoName);
             if (!photo) {
                 throw new NotFoundException('Photo non trouvée');
             }
+            const photoAlbums = albumsData.filter(album => album.photos.includes(photoName)).map(album => album.nom);
             return {
                 name: photo.name,
                 createdAt: photo.createdAt,
                 liked: photo.liked,
                 size: photo.size,
-                dimensions: photo.dimensions
+                dimensions: photo.dimensions,
+                albums: photoAlbums
             };
         } catch (error) {
             console.error('Erreur lors de la récupération des informations sur l\'image : ', error);
