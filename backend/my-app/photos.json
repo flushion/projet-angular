@@ -1,33 +1,5 @@
 [
   {
-    "name": "photo1.jpg",
-    "createdAt": "2024-04-08T09:09:26.870Z",
-    "liked": false,
-    "size": 4348298,
-    "dimensions": {
-      "width": 3024,
-      "height": 4032
-    },
-    "albums": [
-      "MonNouvelAlbum"
-    ]
-  },
-  {
-    "name": "photo2.jpg",
-    "createdAt": "2024-04-08T09:09:26.870Z",
-    "liked": true,
-    "size": 4348298,
-    "dimensions": {
-      "width": 3024,
-      "height": 4032
-    },
-    "albums": [
-      "MonNouvelAlbum",
-      "HelloTest",
-      "salut"
-    ]
-  },
-  {
     "name": "photo4.jpg",
     "createdAt": "2024-04-08T09:09:26.864Z",
     "liked": false,
@@ -38,13 +10,14 @@
     },
     "albums": [
       "HelloTest",
-      "salut"
+      "salut",
+      "MonNouvelAlbum"
     ]
   },
   {
     "name": "photo5.jpg",
     "createdAt": "2024-04-08T09:09:26.862Z",
-    "liked": false,
+    "liked": true,
     "size": 3938477,
     "dimensions": {
       "width": 4032,
@@ -77,7 +50,7 @@
   {
     "name": "photo8.jpg",
     "createdAt": "2024-04-08T09:09:26.854Z",
-    "liked": false,
+    "liked": true,
     "size": 2382736,
     "dimensions": {
       "width": 3024,
@@ -88,7 +61,7 @@
   {
     "name": "photo9.jpg",
     "createdAt": "2024-04-08T09:09:26.853Z",
-    "liked": false,
+    "liked": true,
     "size": 3120334,
     "dimensions": {
       "width": 4032,
@@ -193,7 +166,9 @@
       "width": 3264,
       "height": 2448
     },
-    "albums": []
+    "albums": [
+      "MonNouvelAlbum"
+    ]
   },
   {
     "name": "photo19.jpg",

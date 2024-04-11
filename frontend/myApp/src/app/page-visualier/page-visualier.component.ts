@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IDimension } from '../IDimension';
 import { PopUpInfosComponent } from '../pop-up-infos/pop-up-infos.component';
 import { MatDialog } from '@angular/material/dialog';
+import { AlbumsService } from '../albums.service';
 
 @Component({
   selector: 'app-page-visualier',
@@ -27,7 +28,8 @@ export class PageVisualierComponent implements IPhoto {
     private router: Router,
     private route: ActivatedRoute,
     private photosService: PhotosService,
-    private dialogRef: MatDialog
+    private dialogRef: MatDialog,
+    private albumsService: AlbumsService
   ) {}
 
   ngOnInit(): void {
@@ -44,7 +46,7 @@ export class PageVisualierComponent implements IPhoto {
         this.selectionPrecedente = infos.albums;
       }
     });
-    this.photosService
+    this.albumsService
       .getAllAlbum()
       .subscribe((albums: { nom: string; photos: string[] }[]) => {
         albums.forEach((album: { nom: string; photos: string[] }) => {
@@ -90,11 +92,11 @@ export class PageVisualierComponent implements IPhoto {
 
     //on traite ce changement en fonction de si c'est un ajoue ou une suppression
     if (selectionAdded.length > 0) {
-      this.photosService.ajouterPhotoInAlbum(selectionAdded[0], this.name);
+      this.albumsService.ajouterPhotoInAlbum(selectionAdded[0], this.name);
       console.log('Élément sélectionné : ', selectionAdded[0]);
       this.selectionPrecedente.push(selectionAdded[0]);
     } else if (selectionRemoved.length > 0) {
-      this.photosService.deletePhotoInAlbum(selectionRemoved[0], this.name);
+      this.albumsService.deletePhotoInAlbum(selectionRemoved[0], this.name);
       console.log('Élément désélectionné : ', selectionRemoved[0]);
       this.selectionPrecedente.filter((elt, index) => {
         if (elt == selectionRemoved[0]) {
