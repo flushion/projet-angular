@@ -16,4 +16,10 @@ span {
   bottom: 0;
   left: 50%;
   transform: translate(-50%, -50%);
+  backdrop-filter: blur(2px);
+  border-radius: 15px;
+}
+
+mat-form-field {
+  position: absolute;
 }
