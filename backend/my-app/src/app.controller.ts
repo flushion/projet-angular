@@ -1,4 +1,13 @@
-import { Controller, Get, Res, Delete, Param, NotFoundException, Post, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Res,
+  Delete,
+  Param,
+  NotFoundException,
+  Post,
+  Body,
+} from '@nestjs/common';
 import { Response } from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -10,7 +19,7 @@ import * as Jimp from 'jimp'; // pour la taille d'image
 
 @Controller()
 export class AppController {
-  constructor() { }
+  constructor() {}
 
   // // Récupérer la liste des photos sans affecter les données des photos existantes
   // @Get('photos')
