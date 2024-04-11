@@ -1,4 +1,4 @@
-<mat-form-field>
+<mat-form-field [style.right]="apparition ? '5vw' : '-600vw'">
   <mat-label>Album</mat-label>
   <mat-select
     matNativeControl
@@ -11,6 +11,14 @@
     }
   </mat-select>
 </mat-form-field>
+
+<button
+  mat-icon-button
+  aria-label="Example icon button with a vertical three dot icon"
+  (click)="apparitionAlbum()"
+>
+  <mat-icon>more_vert</mat-icon>
+</button>
 
 <div [style.background-image]="'url(' + path + '' + name + ')'">
   <span>
