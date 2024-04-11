@@ -6,4 +6,5 @@ export interface IPhoto {
   liked: boolean;
   size: number;
   dimensions: IDimension;
+  albums: string[];
 }

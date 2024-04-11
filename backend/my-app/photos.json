@@ -22,18 +22,11 @@
       "width": 3024,
       "height": 4032
     },
-    "albums": []
-  },
-  {
-    "name": "photo3.jpg",
-    "createdAt": "2024-04-08T09:09:26.869Z",
-    "liked": false,
-    "size": 2459580,
-    "dimensions": {
-      "width": 3024,
-      "height": 4032
-    },
-    "albums": []
+    "albums": [
+      "MonNouvelAlbum",
+      "HelloTest",
+      "salut"
+    ]
   },
   {
     "name": "photo4.jpg",
@@ -44,7 +37,10 @@
       "width": 4032,
       "height": 3024
     },
-    "albums": []
+    "albums": [
+      "HelloTest",
+      "salut"
+    ]
   },
   {
     "name": "photo5.jpg",

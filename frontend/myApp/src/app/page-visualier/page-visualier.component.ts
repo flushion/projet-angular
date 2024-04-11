@@ -19,7 +19,8 @@ export class PageVisualierComponent implements IPhoto {
   size: number = 0;
   dimensions: IDimension = { width: 0, height: 0 };
   allAlbums: string[] = [];
-  appartient: string[] = [];
+  albums: string[] = [];
+  selectionPrecedente: string[] = [];
   path: string = 'http://localhost:3000/photos/';
 
   constructor(
@@ -39,6 +40,8 @@ export class PageVisualierComponent implements IPhoto {
         this.liked = infos.liked;
         this.size = infos.size;
         this.dimensions = infos.dimensions;
+        this.albums = infos.albums;
+        this.selectionPrecedente = infos.albums;
       }
     });
     this.photosService
@@ -48,7 +51,6 @@ export class PageVisualierComponent implements IPhoto {
           this.allAlbums.push(album.nom);
         });
       });
-    this.appartient = [];
   }
 
   like() {
@@ -77,5 +79,28 @@ export class PageVisualierComponent implements IPhoto {
     });
   }
 
-  updateAllComplete() {}
+  changementAlbum() {
+    //on cherche si une modificationa eu lieu entre albums et la selection precedente
+    const selectionAdded = this.albums.filter(
+      (elt) => !this.selectionPrecedente.includes(elt)
+    );
+    const selectionRemoved = this.selectionPrecedente.filter(
+      (elt) => !this.albums.includes(elt)
+    );
+
+    //on traite ce changement en fonction de si c'est un ajoue ou une suppression
+    if (selectionAdded.length > 0) {
+      this.photosService.ajouterPhotoInAlbum(selectionAdded[0], this.name);
+      console.log('Élément sélectionné : ', selectionAdded[0]);
+      this.selectionPrecedente.push(selectionAdded[0]);
+    } else if (selectionRemoved.length > 0) {
+      this.photosService.deletePhotoInAlbum(selectionRemoved[0], this.name);
+      console.log('Élément désélectionné : ', selectionRemoved[0]);
+      this.selectionPrecedente.filter((elt, index) => {
+        if (elt == selectionRemoved[0]) {
+          this.selectionPrecedente.splice(index, 1);
+        }
+      });
+    }
+  }
 }

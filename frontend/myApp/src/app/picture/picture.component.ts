@@ -15,6 +15,7 @@ export class PictureComponent implements IPhoto {
   @Input() liked: boolean = false;
   @Input() size: number = 0;
   @Input() dimensions: IDimension = { width: 0, height: 0 };
+  @Input() albums: string[] = [];
   private _path: string = 'http://localhost:3000/photos/';
 
   constructor(private photosService: PhotosService, private router: Router) {}

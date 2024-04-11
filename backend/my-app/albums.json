@@ -2,18 +2,18 @@
   {
     "nom": "MonNouvelAlbum",
     "photos": [
-      "photo1.jpg",
-      "photo2.jpg"
+      "photo1.jpg"
     ]
   },
   {
     "nom": "HelloTest",
     "photos": [
-      "photo1.jpg"
+      "photo1.jpg",
+      "photo4.jpg"
     ]
-
+  },
+  {
     "nom": "salut",
     "photos": []
-
   }
 ]
