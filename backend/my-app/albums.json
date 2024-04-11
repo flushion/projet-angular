@@ -9,6 +9,8 @@
   },
   {
     "nom": "HelloTest",
-    "photos": []
+    "photos": [
+      "photo10.jpg"
+    ]
   }
 ]
