@@ -8,10 +8,7 @@
       "width": 3024,
       "height": 4032
     },
-    "albums": [
-      "MonNouvelAlbum",
-      "HelloTest"
-    ]
+    "albums": ["MonNouvelAlbum", "HelloTest"]
   },
   {
     "name": "photo2.jpg",
@@ -22,11 +19,7 @@
       "width": 3024,
       "height": 4032
     },
-    "albums": [
-      "MonNouvelAlbum",
-      "HelloTest",
-      "salut"
-    ]
+    "albums": ["MonNouvelAlbum", "HelloTest", "salut"]
   },
   {
     "name": "photo4.jpg",
@@ -37,10 +30,7 @@
       "width": 4032,
       "height": 3024
     },
-    "albums": [
-      "HelloTest",
-      "salut"
-    ]
+    "albums": ["HelloTest", "salut"]
   },
   {
     "name": "photo5.jpg",
