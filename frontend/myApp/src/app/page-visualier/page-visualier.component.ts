@@ -22,6 +22,7 @@ export class PageVisualierComponent implements IPhoto {
   allAlbums: string[] = [];
   albums: string[] = [];
   selectionPrecedente: string[] = [];
+  public apparition: number = 0;
   path: string = 'http://localhost:3000/photos/';
 
   constructor(
@@ -104,5 +105,9 @@ export class PageVisualierComponent implements IPhoto {
         }
       });
     }
+  }
+
+  apparitionAlbum() {
+    this.apparition = 1 - this.apparition;
   }
 }
