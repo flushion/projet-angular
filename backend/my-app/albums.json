@@ -7,13 +7,6 @@
   },
   {
     "nom": "HelloTest",
-    "photos": [
-      "photo1.jpg",
-      "photo4.jpg"
-    ]
-  },
-  {
-    "nom": "salut",
     "photos": []
   }
 ]

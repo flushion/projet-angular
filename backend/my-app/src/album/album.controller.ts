@@ -181,6 +181,7 @@ export class AlbumController {
 
     // Supprimer une photo d'un album
     @Delete('albums/:nomAlbum/photos/:nomPhoto')
+    @Delete('albums/:nomAlbum/photos/:nomPhoto')
     async supprimerDeAlbum(@Param('nomAlbum') nomAlbum: string, @Param('nomPhoto') nomPhoto: string, @Res() res: Response) {
         try {
             const albums = this.getAlbumsData();
@@ -188,8 +189,22 @@ export class AlbumController {
             if (indexAlbum !== -1) {
                 const indexPhoto = albums[indexAlbum].photos.findIndex((photo: string) => photo === nomPhoto);
                 if (indexPhoto !== -1) {
+                    // Supprimer la photo de l'album
                     albums[indexAlbum].photos.splice(indexPhoto, 1);
                     this.updateAlbumsData(albums);
+
+                    // Mettre à jour les données de la photo pour supprimer l'album
+                    const photos = this.getPhotosData();
+                    const indexPhotoData = photos.findIndex(photo => photo.name === nomPhoto);
+                    if (indexPhotoData !== -1) {
+                        const photoData = photos[indexPhotoData];
+                        const indexAlbumInPhoto = photoData.albums.findIndex((album: string) => album === nomAlbum);
+                        if (indexAlbumInPhoto !== -1) {
+                            photoData.albums.splice(indexAlbumInPhoto, 1);
+                            this.updatePhotosData(photos);
+                        }
+                    }
+
                     return res.status(200).send('Photo supprimée de l\'album avec succès');
                 } else {
                     return res.status(400).send('Cette photo n\'est pas présente dans l\'album');
