@@ -8,8 +8,6 @@
   },
   {
     "nom": "HelloTest",
-    "photos": [
-      "photo1.jpg"
-    ]
+    "photos": []
   }
 ]
