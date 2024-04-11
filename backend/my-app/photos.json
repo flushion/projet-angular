@@ -72,13 +72,15 @@
   {
     "name": "photo10.jpg",
     "createdAt": "2024-04-08T12:25:18.627Z",
-    "liked": false,
+    "liked": true,
     "size": 2522698,
     "dimensions": {
       "width": 4032,
       "height": 3024
     },
-    "albums": []
+    "albums": [
+      "HelloTest"
+    ]
   },
   {
     "name": "photo11.jpg",
