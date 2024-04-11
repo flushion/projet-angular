@@ -1,3 +1,26 @@
+<mat-form-field [style.right]="apparition ? '5vw' : '-600vw'">
+  <mat-label>Album</mat-label>
+  <mat-select
+    matNativeControl
+    multiple
+    [(ngModel)]="albums"
+    (ngModelChange)="changementAlbum()"
+  >
+    @for (album of allAlbums; track album) {
+    <mat-option [value]="album">{{ album }}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
+
+<button
+  mat-icon-button
+  aria-label="Example icon button with a vertical three dot icon"
+  (click)="apparitionAlbum()"
+  id="apparition"
+>
+  <mat-icon>more_vert</mat-icon>
+</button>
+
 <div [style.background-image]="'url(' + path + '' + name + ')'">
   <span>
     <button
@@ -15,21 +38,3 @@
     </button>
   </span>
 </div>
-
-<!-- <mat-form-field>
-  <mat-label>Toppings</mat-label>
-  <mat-select [formControl]="toppings" multiple>
-    <mat-select-trigger>
-      {{toppings.value?.[0] || ''}}
-      @if ((toppings.value?.length || 0) > 1) {
-      <span class="example-additional-selection">
-        (+{{ (toppings.value?.length || 0) - 1 }}
-        {{ toppings.value?.length === 2 ? "other" : "others" }})
-      </span>
-      }
-    </mat-select-trigger>
-    @for (topping of toppingList; track topping) {
-    <mat-option [value]="topping">{{ topping }}</mat-option>
-    }
-  </mat-select>
-</mat-form-field> -->

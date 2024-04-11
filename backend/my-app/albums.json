@@ -3,11 +3,13 @@
     "nom": "MonNouvelAlbum",
     "photos": [
       "photo1.jpg",
-      "photo2.jpg"
+      "photo18.jpg"
     ]
   },
   {
     "nom": "HelloTest",
-    "photos": []
+    "photos": [
+      "photo10.jpg"
+    ]
   }
 ]

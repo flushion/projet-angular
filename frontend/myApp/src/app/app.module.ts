@@ -10,7 +10,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { PhototequeComponent } from './phototeque/phototeque.component';
-import { BarreNavigationComponent } from './barre-navigation/barre-navigation.component';
 
 import { PhotosService } from './photos.service';
 import { HttpClientModule } from '@angular/common/http';
@@ -23,12 +22,13 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 
+import { MatToolbar } from '@angular/material/toolbar';
+
 @NgModule({
   declarations: [
     AppComponent,
     PhototequeComponent,
     PictureComponent,
-    BarreNavigationComponent,
     PageVisualierComponent,
     PageHomeComponent,
     AlbumComponent,
@@ -44,6 +44,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatInputModule,
     FormsModule,
     MatSelectModule,
+    MatToolbar,
   ],
   providers: [provideAnimationsAsync(), PhotosService],
   bootstrap: [AppComponent],

@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IDimension } from '../IDimension';
 import { PopUpInfosComponent } from '../pop-up-infos/pop-up-infos.component';
 import { MatDialog } from '@angular/material/dialog';
+import { AlbumsService } from '../albums.service';
 
 @Component({
   selector: 'app-page-visualier',
@@ -19,14 +20,17 @@ export class PageVisualierComponent implements IPhoto {
   size: number = 0;
   dimensions: IDimension = { width: 0, height: 0 };
   allAlbums: string[] = [];
-  appartient: string[] = [];
+  albums: string[] = [];
+  selectionPrecedente: string[] = [];
+  public apparition: number = 0;
   path: string = 'http://localhost:3000/photos/';
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private photosService: PhotosService,
-    private dialogRef: MatDialog
+    private dialogRef: MatDialog,
+    private albumsService: AlbumsService
   ) {}
 
   ngOnInit(): void {
@@ -39,16 +43,17 @@ export class PageVisualierComponent implements IPhoto {
         this.liked = infos.liked;
         this.size = infos.size;
         this.dimensions = infos.dimensions;
+        this.albums = infos.albums;
+        this.selectionPrecedente = infos.albums;
       }
     });
-    this.photosService
+    this.albumsService
       .getAllAlbum()
       .subscribe((albums: { nom: string; photos: string[] }[]) => {
         albums.forEach((album: { nom: string; photos: string[] }) => {
           this.allAlbums.push(album.nom);
         });
       });
-    this.appartient = [];
   }
 
   like() {
@@ -77,5 +82,32 @@ export class PageVisualierComponent implements IPhoto {
     });
   }
 
-  updateAllComplete() {}
+  changementAlbum() {
+    //on cherche si une modificationa eu lieu entre albums et la selection precedente
+    const selectionAdded = this.albums.filter(
+      (elt) => !this.selectionPrecedente.includes(elt)
+    );
+    const selectionRemoved = this.selectionPrecedente.filter(
+      (elt) => !this.albums.includes(elt)
+    );
+
+    //on traite ce changement en fonction de si c'est un ajoue ou une suppression
+    if (selectionAdded.length > 0) {
+      this.albumsService.ajouterPhotoInAlbum(selectionAdded[0], this.name);
+      console.log('Élément sélectionné : ', selectionAdded[0]);
+      this.selectionPrecedente.push(selectionAdded[0]);
+    } else if (selectionRemoved.length > 0) {
+      this.albumsService.deletePhotoInAlbum(selectionRemoved[0], this.name);
+      console.log('Élément désélectionné : ', selectionRemoved[0]);
+      this.selectionPrecedente.filter((elt, index) => {
+        if (elt == selectionRemoved[0]) {
+          this.selectionPrecedente.splice(index, 1);
+        }
+      });
+    }
+  }
+
+  apparitionAlbum() {
+    this.apparition = 1 - this.apparition;
+  }
 }
