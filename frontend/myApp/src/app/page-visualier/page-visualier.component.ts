@@ -18,6 +18,8 @@ export class PageVisualierComponent implements IPhoto {
   liked: boolean = false;
   size: number = 0;
   dimensions: IDimension = { width: 0, height: 0 };
+  allAlbums: string[] = [];
+  appartient: string[] = [];
   path: string = 'http://localhost:3000/photos/';
 
   constructor(
@@ -29,16 +31,6 @@ export class PageVisualierComponent implements IPhoto {
 
   ngOnInit(): void {
     const nom: string = this.route.snapshot.paramMap.get('name')!;
-    /*
-    const infos = this.photosService
-      .getByName(nom)
-      .subscribe((info: IPhoto) => {
-        this.name = nom;
-        this.createdAt = info.createdAt;
-        this.liked = info.liked;
-      });
-      */
-
     this.photosService.getAll().subscribe((photos: IPhoto[]) => {
       let infos = photos.find((photo) => photo.name === nom);
       if (infos != undefined) {
@@ -49,6 +41,14 @@ export class PageVisualierComponent implements IPhoto {
         this.dimensions = infos.dimensions;
       }
     });
+    this.photosService
+      .getAllAlbum()
+      .subscribe((albums: { nom: string; photos: string[] }[]) => {
+        albums.forEach((album: { nom: string; photos: string[] }) => {
+          this.allAlbums.push(album.nom);
+        });
+      });
+    this.appartient = [];
   }
 
   like() {
@@ -76,4 +76,6 @@ export class PageVisualierComponent implements IPhoto {
       },
     });
   }
+
+  updateAllComplete() {}
 }

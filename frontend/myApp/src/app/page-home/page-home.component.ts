@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PhotosService } from '../photos.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-page-home',
@@ -8,10 +9,26 @@ import { PhotosService } from '../photos.service';
 })
 export class PageHomeComponent {
   albums: string[] = [];
+  nvlAlbum: string = '';
 
-  constructor() {}
+  constructor(private photosService: PhotosService) {}
+
+  initAlbums() {
+    this.albums = ['all', 'favorites'];
+    this.photosService.getAllAlbum().subscribe((albums: Observable<any>) => {
+      albums.forEach((unAlbum) => this.albums.push(unAlbum.nom));
+    });
+  }
 
   ngOnInit() {
-    this.albums = ['all', 'favorites'];
+    this.initAlbums();
+  }
+
+  addAlbum() {
+    if (this.nvlAlbum !== '') {
+      this.photosService.addAlbum(this.nvlAlbum);
+      this.nvlAlbum = '';
+      this.initAlbums();
+    }
   }
 }

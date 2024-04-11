@@ -26,7 +26,7 @@
   {
     "name": "photo3.jpg",
     "createdAt": "2024-04-08T09:09:26.869Z",
-    "liked": true,
+    "liked": false,
     "size": 2459580,
     "dimensions": {
       "width": 3024,
@@ -70,7 +70,7 @@
   {
     "name": "photo7.jpg",
     "createdAt": "2024-04-08T09:09:26.858Z",
-    "liked": true,
+    "liked": false,
     "size": 3292160,
     "dimensions": {
       "width": 3024,
@@ -169,7 +169,7 @@
   {
     "name": "photo16.jpg",
     "createdAt": "2024-04-08T09:09:26.796Z",
-    "liked": true,
+    "liked": false,
     "size": 2914570,
     "dimensions": {
       "width": 3264,

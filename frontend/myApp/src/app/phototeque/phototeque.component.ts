@@ -22,10 +22,16 @@ export class PhototequeComponent implements OnInit {
       this.photosService
         .getFavories()
         .subscribe((photos: IPhoto[]) => (this.mesPhotos = photos));
-    } else {
+    } else if (album === 'all') {
       this.photosService.getAll().subscribe((photos: IPhoto[]) => {
         this.mesPhotos = photos;
       });
+    } else if (album !== null) {
+      this.photosService
+        .getPhotosByAlbum(album)
+        .subscribe((photos: IPhoto[]) => {
+          this.mesPhotos = photos;
+        });
     }
   }
 }
