@@ -11,5 +11,9 @@
     "photos": [
       "photo1.jpg"
     ]
+
+    "nom": "salut",
+    "photos": []
+
   }
 ]

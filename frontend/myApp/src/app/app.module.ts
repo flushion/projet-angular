@@ -18,6 +18,10 @@ import { PageVisualierComponent } from './page-visualier/page-visualier.componen
 import { PageHomeComponent } from './page-home/page-home.component';
 
 import { MatDialogModule } from '@angular/material/dialog';
+import { AlbumComponent } from './album/album.component';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -27,6 +31,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     BarreNavigationComponent,
     PageVisualierComponent,
     PageHomeComponent,
+    AlbumComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,6 +41,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatToolbarModule,
     HttpClientModule,
     MatDialogModule,
+    MatInputModule,
+    FormsModule,
+    MatSelectModule,
   ],
   providers: [provideAnimationsAsync(), PhotosService],
   bootstrap: [AppComponent],
